@@ -1,0 +1,84 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <PackageIcon>Grafika/ikona.png</PackageIcon>
+    <ApplicationIcon>Grafika/ikona1.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Aplikacja\kranmanualny1.png" />
+    <None Remove="Aplikacja\kranmanualny2.png" />
+    <None Remove="Aplikacja\panelsterujacy.png" />
+    <None Remove="Aplikacja\pompa_wylewajaca.png" />
+    <None Remove="Aplikacja\silnik.png" />
+    <None Remove="Aplikacja\wyswietlacz3.png" />
+    <None Remove="Aplikacja\zbiornik3.png" />
+    <None Remove="Aplikacja\zbiornik4.png" />
+    <None Remove="Grafika\wyswietlacz3.png" />
+    <None Remove="ikona1.png" />
+    <None Remove="kran1.png" />
+    <None Remove="kran2.png" />
+    <None Remove="lamp1.png" />
+    <None Remove="lamp2.png" />
+    <None Remove="lamp3.png" />
+    <None Remove="lampkapng.png" />
+    <None Remove="menu2.png" />
+    <None Remove="paneloznaczeniapng.png" />
+    <None Remove="plywak1.png" />
+    <None Remove="plywak2.png" />
+    <None Remove="plywak3.png" />
+    <None Remove="przycisk2Wyl.png" />
+    <None Remove="przyciskWyl.png" />
+    <None Remove="rect846-2-8-8.png" />
+    <None Remove="ustawieniapng.png" />
+    <None Remove="woda.png" />
+    <None Remove="wyswietlacz.png" />
+    <None Remove="zbiornik2png.png" />
+    <None Remove="zbiornikpng.png" />
+    <None Remove="zbiornikramkaztlempng.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Grafika\ikona1.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
+    <PackageReference Include="System.IO.Ports" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Grafika\panelsterujacy.png" />
+    <Resource Include="Grafika\pompa_wylewajaca.png" />
+    <Resource Include="Grafika\zbiornik4.png" />
+    <Resource Include="Grafika\kranmanualny1.png" />
+    <Resource Include="Grafika\kranmanualny2.png" />
+    <Resource Include="Grafika\silnik.png" />
+    <Resource Include="Grafika\zbiornik3.png" />
+    <Resource Include="Grafika\ikona1.png" />
+    <Resource Include="Grafika\kran1.png" />
+    <Resource Include="Grafika\kran2.png" />
+    <Resource Include="Grafika\lamp1.png" />
+    <Resource Include="Grafika\lamp2.png" />
+    <Resource Include="Grafika\lamp3.png" />
+    <Resource Include="Grafika\lampkapng.png" />
+    <Resource Include="Grafika\menu2.png" />
+    <Resource Include="Grafika\paneloznaczeniapng.png" />
+    <Resource Include="Grafika\plywak1.png" />
+    <Resource Include="Grafika\plywak2.png" />
+    <Resource Include="Grafika\plywak3.png" />
+    <Resource Include="Grafika\przycisk2Wyl.png" />
+    <Resource Include="Grafika\przyciskWyl.png" />
+    <Resource Include="Grafika\manu1.png" />
+    <Resource Include="Grafika\ustawieniapng.png" />
+    <Resource Include="Grafika\woda.png" />
+    <Resource Include="Grafika\wyswietlacz3.png" />
+    <Resource Include="Grafika\zbiornik2png.png" />
+    <Resource Include="Grafika\zbiornikramkaztlempng.png" />
+  </ItemGroup>
+
+</Project>

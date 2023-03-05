@@ -1,0 +1,409 @@
+﻿<Window x:Class="SymulatorPoziomuCieczy.Aplikacja.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SymulatorPoziomuCieczy.Aplikacja"
+        xmlns:cc="clr-namespace:SymulatorPoziomuCieczy.Aplikacja"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        xmlns:mw="clr-namespace:SymulatorPoziomuCieczy.ModelWidoku"
+        mc:Ignorable="d"
+        Title="Symulator zbiornika z wodą" Height="820" Width="1100" Background="#FF6D97A9" Icon="/Grafika/ikona1.png">
+
+    <Window.Resources>
+        <XmlDataProvider x:Key="ComPorts" Source="CommsData.xml" XPath="/Comms/Ports" />
+        <XmlDataProvider x:Key="ComSpeed" Source="CommsData.xml" XPath="/Comms/Baud" />
+    </Window.Resources>
+
+    <Window.DataContext>
+        <mw:GlownyModelWidoku />
+    </Window.DataContext>
+
+    <Grid Margin="10,10,10,10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1.3*"/>
+            <RowDefinition Height="0.6*"/>
+            <RowDefinition Height="0.28*"/>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="0.02*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="0.95*"/>
+        </Grid.ColumnDefinitions>
+
+
+
+        <Grid Grid.RowSpan="3" Width="540" Height="610" >
+            <Grid.Background>
+                <ImageBrush ImageSource="/Grafika/zbiornik4.png"/>
+            </Grid.Background>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Rectangle x:Name="WodaWylewana" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="5" Width="{Binding Path=WodaWylewanaPix}" Height="200" 
+                       HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="60,86.7,0,7">
+                <Rectangle.Fill>
+                    <ImageBrush ImageSource="/Grafika/woda.png"/>
+                </Rectangle.Fill>
+            </Rectangle>
+
+            <Rectangle x:Name="WodaNalewana" Grid.Column="1" Grid.ColumnSpan="2" Width="{Binding Path=WodaNalewanaSzerokoscPix}"  Height="{Binding Path=WodaNalewanaWysokoscPix}" 
+                       HorizontalAlignment="Center" VerticalAlignment="Top" Margin="4,64.8,12,0" Grid.RowSpan="5" >
+                <Rectangle.Fill>
+                    <ImageBrush ImageSource="/Grafika/woda.png"/>
+                </Rectangle.Fill>
+            </Rectangle>
+
+            <Image Source="/Grafika/kran2.png" Grid.ColumnSpan="3" Margin="-100,0,0,37" Width="215" Height="54"/>
+
+            <Image Grid.Column="0" Grid.Row="4" Margin="13,35,2,9"
+                   Source="/Grafika/silnik.png" Height="78" Width="93"  Visibility="{Binding Path=PompaNalewajaca1, Mode=OneWay}"/>
+            <Image Grid.Column="0" Grid.Row="4" Margin="15,36,2,9"
+                   Source="/Grafika/silnik.png" Height="78" Width="93"  Visibility="{Binding Path=PompaNalewajaca2, Mode=OneWay}"/>
+
+            <Image Grid.Column="2" Grid.Row="4" Margin="46,49,2,9"
+                   Source="/Grafika/pompa_wylewajaca.png" Height="47" Width="42"  Visibility="{Binding Path=PompaWylewajaca1, Mode=OneWay}"/>
+            <Image Grid.Column="2" Grid.Row="4" Margin="46,50,0,9"
+                   Source="/Grafika/pompa_wylewajaca.png" Height="47" Width="42"  Visibility="{Binding Path=PompaWylewajaca2, Mode=OneWay}"/>
+
+            <Image x:Name="plywak1" Source="/Grafika/plywak1.png" Grid.Column="3" Grid.Row="2" Margin="31,77,0,0"
+                   Width="48" Height="38" Visibility="{Binding Path=PlywakPolozenie1}"/>
+
+            <Image x:Name="plywak2" Source="/Grafika/plywak2.png" Grid.Column="3" Grid.Row="2" Margin="26,65,0,0"
+                   Width="48" Height="38" Visibility="{Binding Path=PlywakPolozenie2}"/>
+
+            <Image x:Name="plywak3" Source="/Grafika/plywak3.png" Grid.Column="3" Grid.Row="2" Margin="24,50,0,0"
+                   Width="48" Height="38" Visibility="{Binding Path=PlywakPolozenie3}"/>
+
+            <Rectangle x:Name="WodaWZbiorniku" Grid.Column="1" Grid.ColumnSpan="3" Grid.RowSpan="4" Grid.Row="1" Width="269" Height="{Binding Path=WodaWZbiornikuPix}"
+                       HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="34,0,0,90">
+                <Rectangle.Fill>
+                    <ImageBrush ImageSource="/Grafika/woda.png"/>
+                </Rectangle.Fill>
+            </Rectangle>
+
+            <Label Content="h" Foreground="#547584" FontSize="20" FontFamily="MS Reference Sans Serif"
+                   HorizontalAlignment="Center" Margin="7,-18,0,0" Grid.Column="1" Grid.Row="1" Opacity="0.735" />
+            <Label Content="max" Foreground="#547584" FontSize="9" FontFamily="MS Reference Sans Serif"
+                   HorizontalAlignment="Center" Margin="37,-6,0,0" Grid.Column="1" Grid.Row="1" Opacity="0.735" />
+            <Rectangle Grid.Column="1" Grid.Row="1" Fill="#547584" Width="37" Height="1" Margin="26,-103,0,0" Opacity="0.78" />
+
+            <Label Content="h" Foreground="#547584" FontSize="20" FontFamily="MS Reference Sans Serif"
+                   HorizontalAlignment="Center" Margin="26,60.1,0,0" Grid.Column="1" Grid.Row="2" Opacity="0.735" />
+            <Label Content="max" Foreground="#547584" FontSize="9" FontFamily="MS Reference Sans Serif"
+                   HorizontalAlignment="Center" Margin="57,73,0,0" Grid.Column="1" Grid.Row="2" Opacity="0.735" />
+            <Label Content="1" Foreground="#547584" FontSize="14" FontFamily="MS Reference Sans Serif"
+                   HorizontalAlignment="Center" Margin="4,53,0,0" Grid.Column="1" Grid.Row="2" Opacity="0.735" />
+            <Rectangle Grid.Column="1" Grid.Row="2" Fill="#547584" Width="7" Height="0.7" Margin="5,26,0,0" Opacity="0.78" />
+            <Label Content="2" Foreground="#547584" FontSize="14" FontFamily="MS Reference Sans Serif"
+                   HorizontalAlignment="Center" Margin="4,67,0,0" Grid.Column="1" Grid.Row="2" Opacity="0.735" />
+            <Rectangle Grid.Column="1" Grid.Row="2" Fill="#547584" Width="37" Height="1" Margin="26,55,0,0" Opacity="0.78" />
+
+            <Label Content="h" Foreground="#547584" FontSize="20" FontFamily="MS Reference Sans Serif"
+                   HorizontalAlignment="Center" Margin="7,3,0,0" Grid.Column="1" Grid.Row="4" Opacity="0.735" />
+            <Label Content="min" Foreground="#547584" FontSize="9" FontFamily="MS Reference Sans Serif"
+                   HorizontalAlignment="Center" Margin="37,15,0,0" Grid.Column="1" Grid.Row="4" Opacity="0.735" />
+            <Rectangle Grid.Column="1" Grid.Row="4" Fill="#547584" Width="37" Height="1" Margin="26,-59,0,0" Opacity="0.78" />
+
+
+            <Image  Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="2" Grid.RowSpan="2" Margin="58,0,0,11" Width="78" Height="54" 
+                    Source="/Grafika/wyswietlacz3.png" />
+            <TextBlock Grid.Column="2" Grid.Row="3" Width="48" Height="38" Grid.ColumnSpan="2" Grid.RowSpan="2"
+                   Margin="101,104,54,102" FontFamily="WinCC digital 1" Foreground="#FFEA0000" FontSize="25" Text="{Binding Path=IloscWodyWZbiorniku, Mode=OneWay}" />
+            <TextBlock Grid.Column="3" Grid.Row="3" Width="8" Height="38"
+                   Margin="-3,105,107,101" FontFamily="Tw Cen MT Condensed" Foreground="#FFEA0000" FontSize="24" Text="L" Grid.RowSpan="2" Grid.ColumnSpan="2" />
+
+            <Image  Grid.Row="0" Grid.ColumnSpan="2" 
+                    Source="/Grafika/wyswietlacz3.png" Margin="91,31,52,52" />
+            <TextBlock Grid.Row="0"  Grid.ColumnSpan="2" Width="34.2" Height="17" 
+                    FontFamily="WinCC digital 1" Foreground="#FFEA0000" FontSize="18" Text="{Binding Path=Przeplyw, Mode=OneWay}" Margin="99.3,42,0,63" HorizontalAlignment="Left" />
+            <TextBlock Grid.Row="0" 
+                    FontFamily="Tw Cen MT Condensed" Foreground="#FFEA0000" FontSize="15" Margin="26,45,57,59" Text="mL/s" Grid.Column="1" />
+
+            <Image  Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="2" Width="96" Height="32" 
+                    Source="/Grafika/wyswietlacz3.png" Margin="29,2,0,0" />
+            <TextBlock Grid.Column="2" Grid.Row="0"  Grid.ColumnSpan="2" Width="34" 
+                    FontFamily="WinCC digital 1" Foreground="#FFEA0000" FontSize="18" Text="{Binding Path=OdczytanyPoziomCieczy, Mode=OneWay}" Margin="98,53,0,51" HorizontalAlignment="Left" Height="18" />
+            <TextBlock Grid.Column="3" Grid.Row="0" 
+                    FontFamily="Tw Cen MT Condensed" Foreground="#FFEA0000" FontSize="16" Margin="26,55,66,50" Width="16" Text="cm" />
+        </Grid>
+
+
+
+        <Grid Grid.Row="3" Width="500" Height="120" Margin="0,0,0,0" >
+            <Grid.Background>
+                <ImageBrush ImageSource="/Grafika/panelsterujacy.png"/>
+            </Grid.Background>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.7*"/>
+                <RowDefinition Height="0.7*"/>
+                <RowDefinition Height="0.2*"/>
+                <RowDefinition Height="1.15*"/>
+                <RowDefinition Height="0.85*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <TextBox Text="PRZYCISK 1" FontFamily="Leelawadee" FontSize="8" FontWeight="Bold" Foreground="#FF4E4949"
+                     Background="{x:Null}" SelectionBrush="{x:Null}" BorderBrush="{x:Null}"  VerticalAlignment="Center" 
+                     Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Height="11.5666666666667" Width="50" Margin="-31,0,0,0" />
+            <TextBox Text="PRZYCISK 2" FontFamily="Leelawadee" FontSize="8" FontWeight="Bold" Foreground="#FF4E4949"
+                     Background="{x:Null}" SelectionBrush="{x:Null}" BorderBrush="{x:Null}" VerticalAlignment="Center" 
+                     Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Margin="23,0,0,0" Width="50" />
+            <TextBox Text="LAMPKA 1" FontFamily="Leelawadee" FontSize="8" FontWeight="Bold" Foreground="#FF4E4949"
+                     Background="{x:Null}" SelectionBrush="{x:Null}" BorderBrush="{x:Null}" VerticalAlignment="Center" 
+                     Grid.Row="1" Grid.Column="8" Grid.ColumnSpan="2" Margin="-25,0,0,0" Height="11.5666666666667" Width="50" HorizontalAlignment="Center" />
+            <TextBox Text="LAMPKA 2" FontFamily="Leelawadee" FontSize="8" FontWeight="Bold" Foreground="#FF4E4949"
+                     Background="{x:Null}" SelectionBrush="{x:Null}" BorderBrush="{x:Null}" VerticalAlignment="Center" 
+                     Grid.Row="1" Grid.Column="10" Grid.ColumnSpan="2" Margin="-57,0,0,0" Width="50" HorizontalAlignment="Center" />
+            
+
+            <Image x:Name="Przycisk1" Source="/Grafika/przyciskWyl.png" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2"
+                   Height="42" Width="41" Margin="-30,-28,0,0" Grid.RowSpan="2" Visibility="{Binding Path=Przycisk2, Mode=OneWay}" />
+            <Button Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2" Grid.RowSpan="2" 
+                    Height="42" Width="41" Margin="-30,-28,0,0" Command="{Binding Wcisnijprzycisk2}"
+                    Focusable="False" Visibility="Visible" Opacity="0">
+            </Button>
+
+            <Image x:Name="Przycisk2" Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="2"  Grid.RowSpan="2" Margin="0,-28,-27,0"
+                   Source="/Grafika/przyciskWyl.png" Height="42" Width="41"  Visibility="{Binding Path=Przycisk1, Mode=OneWay}"/>
+            <Button Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="2" Grid.RowSpan="2" 
+                    Height="42" Width="41"  Margin="0,-28,-27,0" Command="{Binding Wcisnijprzycisk1}" 
+                    Focusable="False" Visibility="Visible" Opacity="0">
+            </Button>
+
+            <Image x:Name="Przycisk3" Grid.Column="5" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="3" Margin="15,10,13,4" 
+                   Source="/Grafika/przycisk2Wyl.png"  Height="55" Width="55" Visibility="{Binding Path=PrzyciskBezpieczenstwa, Mode=OneWay}"/>
+            <Button Grid.Column="5" Grid.Row="1" Grid.ColumnSpan="2"  Grid.RowSpan="3"
+                    Height="55" Width="55" Margin="15,10,13,4" Command="{Binding WcisnijprzyciskBezpieczenstwa}"
+                    Focusable="False" Visibility="Visible" Opacity="0">
+            </Button>
+
+            <Image Source="/Grafika/lamp1.png" Width="36" Height="35"  Visibility="{Binding Path=Lampka1}"
+                   Grid.Column="8" Grid.ColumnSpan="2" Grid.Row="3" Margin="-23.8,-0.6,0,2"  />
+            <Image Source="/Grafika/lamp3.png" Width="36" Height="35"  Visibility="{Binding Path=Lampka2}" 
+                   Grid.Column="10" Grid.ColumnSpan="2" Grid.Row="3" Margin="-53.8,-0.3,0,1"/>
+        </Grid>
+
+
+
+        <Grid Grid.Column="2" Grid.ColumnSpan="1" Grid.RowSpan="1" Width="462" Height="347" Margin="24,-5,23,21">
+            <Grid.Background>
+                <ImageBrush ImageSource="/Grafika/ustawieniapng.png"/>
+            </Grid.Background>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <Label Content="Ustawienia" Foreground="#547584" FontSize="24" FontFamily="MS Reference Sans Serif"
+                   HorizontalAlignment="Center" VerticalAlignment="Top"   Margin="0,10,0,0" Grid.ColumnSpan="4" Grid.RowSpan="2"/>
+
+            <Rectangle Fill="#FF19404C" Grid.ColumnSpan="4" Margin="20,-17,20,0" Height="1" Grid.Row="1" />
+            <Label Content="Komunikacji" Foreground="#547584" FontSize="18" FontFamily="MS Reference Sans Serif"
+                   HorizontalAlignment="Center" VerticalAlignment="Top"   Margin="0,10,0,0" Grid.ColumnSpan="4" Grid.Row="1" Grid.RowSpan="2"/>
+
+            <Button x:Name="buttonRefresh" Content="Odśwież" FontSize="12" Background="#FFE1E6EA" Foreground="#547584"         
+                     Margin="10,0,0,0" Height="28" Width="60" FontFamily="MS Reference Sans Serif"  Grid.Row="2" 
+                     Command="{Binding ZnajdzPorty}" />
+
+            <Label Content="Port:" Foreground="#547584" FontSize="16" FontFamily="MS Reference Sans Serif" 
+                   Margin="-10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Grid.Row="2"/>
+            <ComboBox x:Name="comboBoxPort" Width="80" FontSize="16" Foreground="#FF547584" ItemsSource="{Binding Path=ListaPortow}" SelectedItem="{Binding Path=WybranyPort, Mode=TwoWay}"
+                   Margin="40,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2"/>
+
+            <Label Content="Prędkość:" Foreground="#547584" FontSize="16" FontFamily="MS Reference Sans Serif"
+                   Margin="30,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="2"/>
+            <ComboBox x:Name="comboBoxSpeed" FontFamily="MS Reference Sans Serif" Width="90" Foreground="#FF547584" FontSize="16" SelectedItem="{Binding Path=WybranaPredkosc, Mode=TwoWay}"
+                      HorizontalAlignment="Left" VerticalAlignment="Center" VerticalContentAlignment="Top"
+                      Grid.Column="3" Grid.Row="2" Grid.ColumnSpan="2" >
+                <ComboBoxItem Content="300" Opacity="0.3" FontSize="16" Foreground="#FF547584" FontFamily="MS Reference Sans Serif"></ComboBoxItem>
+                <ComboBoxItem Content="600" Opacity="0.3" FontSize="16" Foreground="#FF547584" FontFamily="MS Reference Sans Serif"></ComboBoxItem>
+                <ComboBoxItem Content="1200" Opacity="0.3" FontSize="16" Foreground="#FF547584" FontFamily="MS Reference Sans Serif"></ComboBoxItem>
+                <ComboBoxItem Content="2400" Opacity="0.3" FontSize="16" Foreground="#FF547584" FontFamily="MS Reference Sans Serif"></ComboBoxItem>
+                <ComboBoxItem Content="4800" Opacity="0.3" FontSize="16" Foreground="#FF547584" FontFamily="MS Reference Sans Serif"></ComboBoxItem>
+                <ComboBoxItem Content="7200" Opacity="0.3" FontSize="16" Foreground="#FF547584" FontFamily="MS Reference Sans Serif"></ComboBoxItem>
+                <ComboBoxItem Content="9600" Opacity="0.3" FontSize="16" Foreground="#FF547584" FontFamily="MS Reference Sans Serif"></ComboBoxItem>
+                <ComboBoxItem Content="14400" Opacity="0.3" FontSize="16" Foreground="#FF547584" FontFamily="MS Reference Sans Serif"></ComboBoxItem>
+                <ComboBoxItem Content="19200" Opacity="0.3" FontSize="18" Foreground="#FF547584" FontFamily="MS Reference Sans Serif"></ComboBoxItem>
+                <ComboBoxItem Content="38400" Opacity="0.3" FontSize="16" Foreground="#FF547584" FontFamily="MS Reference Sans Serif"></ComboBoxItem>
+                <ComboBoxItem Content="57600" Opacity="0.3" FontSize="16" Foreground="#FF547584" FontFamily="MS Reference Sans Serif"></ComboBoxItem>
+                <ComboBoxItem Content="115200" Opacity="0.3" FontSize="16" Foreground="#FF547584" FontFamily="MS Reference Sans Serif"></ComboBoxItem>
+                <ComboBoxItem Content="128000" Opacity="0.3" FontSize="16" Foreground="#FF547584" FontFamily="MS Reference Sans Serif"></ComboBoxItem>
+            </ComboBox>
+
+            <Button x:Name="buttonConnect" Content="Połącz" FontSize="16"  Height="30" Width="120" FontFamily="MS Reference Sans Serif"                
+                Background="#FFE1E6EA" Foreground="#FF547584"  Command="{Binding RozpocznijKomunikacje}"             
+                   Grid.Row="3" Grid.ColumnSpan="2"/>
+            <Button x:Name="buttonDisconnect" Content="Rozłącz" FontSize="16" Grid.Column="2" Height="30" Width="120" FontFamily="MS Reference Sans Serif" 
+                Background="#FFE1E6EA" Foreground="#FF547584" Command="{Binding ZakonczKomunikacje}"
+                 Grid.ColumnSpan="2" Grid.Row="3" />
+
+            <Label Content="Stan komunikacji:" Foreground="#547584" FontSize="12" FontFamily="MS Reference Sans Serif" 
+                   Grid.Row="4" Grid.ColumnSpan="4" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="-30,0,0,10"/>
+            <Ellipse Width="25" Height="25" Fill="#547584" 
+                     Grid.Row="4" Grid.ColumnSpan="4" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="110,0,0,10"/>
+            <Ellipse Width="20" Height="20" Fill="#FF3C5A3B" 
+                     Grid.Row="4" Grid.ColumnSpan="4" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="110,0,0,10"/>
+            <Ellipse Width="20" Height="20" Fill="#FF67E662" Visibility="{Binding Path=LampkaStanuKomunikacji}"
+                     Grid.Row="4" Grid.ColumnSpan="4" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="110,0,0,10"/>
+
+
+            <Rectangle Fill="#FF19404C" Grid.ColumnSpan="4" Margin="20,-34,20,0" Height="1" Grid.Row="5" />
+            <Label Content="Symulacji" Foreground="#547584" FontSize="18" FontFamily="MS Reference Sans Serif"
+                   HorizontalAlignment="Center" VerticalAlignment="Top"   Margin="0,3,0,0" Grid.ColumnSpan="4" Grid.Row="5"/>
+
+            <Button FontSize="16" Background="#FFE1E6EA" Foreground="#FF547584" Content="Start"
+                 Height="30" Width="120" FontFamily="MS Reference Sans Serif" Grid.ColumnSpan="2" Grid.Row="6"  Margin="0,-8,0,0"
+                 Command="{Binding StartSymulacji}"/>
+            <Button FontSize="16" Background="#FFE1E6EA" Foreground="#FF547584" Content="Stop"
+                 Height="30" Width="120" FontFamily="MS Reference Sans Serif" Grid.ColumnSpan="2" Grid.Row="6" Grid.Column="2" Margin="0,-8,0,0"
+                 Command="{Binding StopSymulacji}"/>
+            <Button FontSize="16" Background="#FFE1E6EA" Foreground="#FF547584" Content="Reset"
+                 Height="30" Width="91" FontFamily="MS Reference Sans Serif" Grid.ColumnSpan="2" Grid.Row="7"  Margin="51,0,24,0"
+                 Command="{Binding ResetSymulacji}" Grid.Column="2" Grid.RowSpan="2"/>
+            <Button x:Name="Model_zbiornika" Background="#FFE1E6EA" Foreground="#FF547584" Content="Model zbiornika"
+                 Height="30" Width="127" FontFamily="MS Reference Sans Serif" Grid.ColumnSpan="2" Grid.Row="7"  Margin="9,0,24,0"
+                 Grid.RowSpan="2" FontSize="14" Click="UstawModelWidoku" />
+
+            <Label Content="Stan symulacji:" Foreground="#547584" FontSize="12" FontFamily="MS Reference Sans Serif" 
+                   Grid.Row="6" Grid.ColumnSpan="4" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="-28,0,0,-17" Grid.RowSpan="2"/>
+            <Ellipse Width="25" Height="25" Fill="#547584" 
+                     Grid.Row="6" Grid.ColumnSpan="4" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="102,0,0,-20" Grid.RowSpan="2"/>
+            <Ellipse Width="20" Height="20" Fill="#FF3C5A3B" 
+                     Grid.Row="6" Grid.ColumnSpan="4" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="102,0,0,-20" Grid.RowSpan="2"/>
+            <Ellipse Width="20" Height="20" Fill="#FF67E662" Visibility="{Binding Path=LampkaStanuSymulacji}"
+                     Grid.Row="6" Grid.ColumnSpan="4" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="102,0,0,-20" Grid.RowSpan="2"/>
+        </Grid>
+
+        <Grid Grid.Column="1" Grid.Row="1" Width="462" Height="260" Grid.RowSpan="2" Margin="0,-20,0,0">
+            <Grid.Background>
+                <ImageBrush ImageSource="/Grafika/menu2.png"/>
+            </Grid.Background>
+
+            <lvc:CartesianChart Grid.Row="2" Series="{Binding NalewanaCieczWykres}" Margin="45,10,13,7"  >
+                <lvc:CartesianChart.AxisY>
+                    <lvc:Axis Position="RightTop"  Foreground="Red" Title="Ciecz nalewana [ml/s]"  MinValue="0" LabelFormatter="{Binding FormatOsiYNalewanie}">
+                    </lvc:Axis>
+                </lvc:CartesianChart.AxisY>
+                <lvc:CartesianChart.AxisX>
+                    <lvc:Axis MinValue="0" MaxValue ="100" Title="Czas [s]"/>
+                </lvc:CartesianChart.AxisX>
+            </lvc:CartesianChart>
+
+            <lvc:CartesianChart Grid.Row="2" Series="{Binding PoziomCieczyWykres}" Margin="10,10,52,7"  >
+                <lvc:CartesianChart.AxisY>
+                    <lvc:Axis Foreground="Blue" Title="Poziom cieczy [cm]" MinValue="0" LabelFormatter="{Binding FormatOsiYPoziomCieczy}" />
+                </lvc:CartesianChart.AxisY>
+                <lvc:CartesianChart.AxisX>
+                    <lvc:Axis MinValue="0" MaxValue ="100" Title="Czas [s]" />
+                </lvc:CartesianChart.AxisX>
+            </lvc:CartesianChart>
+        </Grid>
+
+
+
+        <Grid Grid.Column="1" Grid.Row="3" Grid.RowSpan="3" Width="462" Height="138" >
+            <Grid.Background>
+                <ImageBrush ImageSource="/Grafika/manu1.png"/>
+            </Grid.Background>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="0.7*"/>
+                <RowDefinition Height="0.7*"/>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition/>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <Label Content="STAN WEJŚĆ/WYJŚĆ" Foreground="#547584" FontSize="19" FontFamily="MS Reference Sans Serif"
+                   HorizontalAlignment="Center" VerticalAlignment="Top"   Margin="0,8,0,0" Grid.ColumnSpan="8" Grid.RowSpan="2" />
+
+            <Label Content="AI1:" Foreground="#547584" FontSize="18" FontFamily="MS Reference Sans Serif"
+                   HorizontalAlignment="Left" VerticalAlignment="Center" Margin="26,0,0,0" Grid.Row="1" Grid.ColumnSpan="2"/>
+            <TextBox x:Name="AnalogInput1View" Foreground="#547584" FontSize="16" FontFamily="MS Reference Sans Serif" Width="120" 
+                     Text="{Binding Path=AnalogIn1, Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                     Margin="50,0,0,0"  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4"/>
+
+            <Label Content="AI2:" Foreground="#547584" FontSize="18" FontFamily="MS Reference Sans Serif"
+                   HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,19,0" Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="2"/>
+            <TextBox x:Name="AnalogInput2View" Foreground="#547584" FontSize="16" FontFamily="MS Reference Sans Serif" Width="120" 
+                     Text="{Binding Path=AnalogIn2, Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                   Margin="50,0,0,0"  Grid.Row="1" Grid.Column="4"  Grid.ColumnSpan="4"/>
+
+            <Label Content="AO1:" Foreground="#547584" FontSize="18" FontFamily="MS Reference Sans Serif"
+                   HorizontalAlignment="Left" VerticalAlignment="Center" Margin="25,0,0,0" Grid.Row="2"  Grid.ColumnSpan="2" />
+            <TextBox x:Name="AnalogOutput1View" Foreground="#547584" FontSize="16" FontFamily="MS Reference Sans Serif" Width="120" 
+                     Text="{Binding Path=AnalogOut1, Mode=OneWay}"  HorizontalAlignment="Center" VerticalAlignment="Center"
+                     Margin="50,0,0,0" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4"/>
+
+            <Label Content="AO2:" Foreground="#547584" FontSize="18" FontFamily="MS Reference Sans Serif"
+                   HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,14,0" Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="2"/>
+            <TextBox x:Name="AnalogOutput2View" Foreground="#547584" FontSize="16" FontFamily="MS Reference Sans Serif" Width="120"
+                     Text="{Binding Path=AnalogOut2, Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                     Margin="50,0,0,0"  Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="4"/>
+
+            <Label Content="DI:" Foreground="#547584" FontSize="18" FontFamily="MS Reference Sans Serif"
+                   HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,22,12" Grid.Row="3" Grid.ColumnSpan="2"/>
+            <TextBox x:Name="DigitalInputs" Foreground="#547584" FontSize="16" FontFamily="MS Reference Sans Serif" Width="120" 
+                     Text="{Binding Path=DigitalIn, Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                     Margin="50,0,0,12"  Grid.Row="3" Grid.ColumnSpan="4"/>
+
+            <Label Content="DO:" Foreground="#547584" FontSize="18" FontFamily="MS Reference Sans Serif"
+                   HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,22,12" Grid.Row="3" Grid.Column="4" Grid.ColumnSpan="2"/>
+            <TextBox x:Name="DigitalOutputs" Foreground="#547584" FontSize="16" FontFamily="MS Reference Sans Serif" Width="120"
+                      Text="{Binding Path=DigitalOut, Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                      Margin="50,0,0,12"  Grid.Row="3" Grid.Column="4" Grid.ColumnSpan="4"/>
+        </Grid>
+
+
+
+    </Grid>
+</Window>
